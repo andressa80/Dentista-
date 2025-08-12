@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %}Anamnese{% endblock %}
+{% block content %}
+<h2>Anamnese para {{ p.name }}</h2>
+<form method="post">
+  <label>Dados da anamnese<br><textarea name="data" rows="4"></textarea></label><br>
+  <label>Avaliação<br><textarea name="avaliacao" rows="3"></textarea></label><br>
+  <button type="submit">Salvar</button>
+</form>
+{% endblock %}

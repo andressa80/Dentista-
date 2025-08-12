@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block title %}Painel Dentista{% endblock %}
+{% block content %}
+<h2>Olá, {{ session.get('dentist_name') }}</h2>
+<section>
+  <h3>Pacientes</h3>
+  <a href="{{ url_for('create_patient') }}">Criar novo paciente</a>
+  <ul>
+    {% for p in patients %}
+      <li><a href="{{ url_for('view_patient', pid=p.id) }}">{{ p.name }}</a> ({{ p.email }})</li>
+    {% else %}
+      <li>Sem pacientes ainda</li>
+    {% endfor %}
+  </ul>
+</section>
+<section>
+  <h3>Disponibilidades</h3>
+  <a href="{{ url_for('availability') }}">Gerenciar disponibilidade</a>
+  <ul>
+    {% for a in avail %}
+      <li>{{ a.date }} {{ a.time }}</li>
+    {% else %}
+      <li>Nenhum horário</li>
+    {% endfor %}
+  </ul>
+</section>
+<section>
+  <h3>Próximas consultas</h3>
+  <ul>
+    {% for ap in appointments %}
+      <li>{{ ap.date }} {{ ap.time }} - {{ ap.patient_name }} - {{ ap.status }}</li>
+    {% else %}
+      <li>Sem agendamentos</li>
+    {% endfor %}
+  </ul>
+</section>
+{% endblock %}

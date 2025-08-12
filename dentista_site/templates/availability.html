@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}Disponibilidade{% endblock %}
+{% block content %}
+<h2>Gerenciar Disponibilidade</h2>
+<form method="post">
+  <label>Data (YYYY-MM-DD)<br><input name="date" required></label><br>
+  <label>Hora (HH:MM) 24h<br><input name="time" required></label><br>
+  <button type="submit">Adicionar</button>
+</form>
+<h3>Horários</h3>
+<ul>
+  {% for a in avail %}
+    <li>{{ a.date }} {{ a.time }} 
+      <form method="post" action="{{ url_for('delete_availability', aid=a.id) }}" style="display:inline">
+        <button type="submit">Remover</button>
+      </form>
+    </li>
+  {% else %}
+    <li>Sem horários</li>
+  {% endfor %}
+</ul>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}Agenda{% endblock %}
+{% block content %}
+<h2>Agenda do Dentista</h2>
+<ul>
+  {% for ap in appts %}
+    <li>{{ ap.date }} {{ ap.time }} - {{ ap.patient_name }} - {{ ap.status }}</li>
+  {% else %}
+    <li>Sem agendamentos</li>
+  {% endfor %}
+</ul>
+{% endblock %}

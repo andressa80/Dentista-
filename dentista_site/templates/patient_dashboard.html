@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %}Perfil{% endblock %}
+{% block content %}
+<h2>Olá, {{ session.get('patient_name') }}</h2>
+<section>
+  <h3>Meu Histórico / Anamneses</h3>
+  <ul>
+    {% for a in anamneses %}
+      <li>{{ a.created_at }} - {{ a.data }} - Avaliação: {{ a.avaliacao }}</li>
+    {% else %}
+      <li>Sem registros</li>
+    {% endfor %}
+  </ul>
+</section>
+<section>
+  <h3>Minhas Consultas</h3>
+  <a href="{{ url_for('patient_book') }}">Agendar nova consulta</a>
+  <ul>
+    {% for ap in appointments %}
+      <li>{{ ap.date }} {{ ap.time }} - {{ ap.dentist_name }} - {{ ap.status }}</li>
+    {% else %}
+      <li>Sem consultas</li>
+    {% endfor %}
+  </ul>
+</section>
+{% endblock %}

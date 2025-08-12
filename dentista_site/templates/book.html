@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %}Agendar{% endblock %}
+{% block content %}
+<h2>Agendar Consulta</h2>
+<form method="post">
+  <label>Escolha um horário disponível:</label><br>
+  <select name="date_time">
+    {% for s in slots %}
+      <option value="{{ s.date }}|{{ s.time }}">{{ s.date }} {{ s.time }}</option>
+    {% else %}
+      <option disabled>Nenhum horário disponível</option>
+    {% endfor %}
+  </select><br><br>
+  <button type="submit">Agendar</button>
+</form>
+<script>
+  // Ajuste no backend: vamos ler campo date_time
+</script>
+{% endblock %}

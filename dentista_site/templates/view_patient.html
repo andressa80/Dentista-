@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}Paciente{% endblock %}
+{% block content %}
+<h2>{{ p.name }}</h2>
+<p>Email: {{ p.email }}</p>
+<a href="{{ url_for('add_anamnesis', pid=p.id) }}">Adicionar Anamnese/Avaliação</a>
+<h3>Anamneses</h3>
+<ul>
+  {% for a in anamneses %}
+    <li><strong>{{ a.created_at }}</strong> - {{ a.data }} - Avaliação: {{ a.avaliacao }}</li>
+  {% else %}
+    <li>Sem anamnese</li>
+  {% endfor %}
+</ul>
+{% endblock %}
