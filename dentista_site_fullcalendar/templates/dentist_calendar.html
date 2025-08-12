@@ -1,0 +1,33 @@
+{% extends 'base.html' %}{% block title %}Calendário Dentista{% endblock %}{% block content %}
+<h2>Calendário - Defina disponibilidades</h2>
+<div id='calendar'></div>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const calendarEl = document.getElementById('calendar');
+    const calendar = new FullCalendar.Calendar(calendarEl, {
+      initialView: 'dayGridMonth',
+      selectable: true,
+      select: function(info) {
+        // ask time
+        const time = prompt('Hora (HH:MM) 24h, ex: 09:30');
+        if(!time) return;
+        const date = info.startStr; // YYYY-MM-DD
+        fetch('/api/add_availability', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({date:date, time:time})})
+          .then(r=>r.json()).then(j=>{ if(j.ok) calendar.refetchEvents(); else alert(j.msg||'erro') });
+      },
+      eventClick: function(info) {
+        if(info.event.extendedProps && info.event.extendedProps.type === 'avail') {
+          if(confirm('Remover disponibilidade?')) {
+            fetch('/api/remove_availability', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({id: info.event.extendedProps.aid})})
+              .then(r=>r.json()).then(j=>{ if(j.ok) calendar.refetchEvents(); });
+          }
+        } else {
+          alert(info.event.title);
+        }
+      },
+      events: '/api/dentist_events'
+    });
+    calendar.render();
+  });
+</script>
+{% endblock %}
