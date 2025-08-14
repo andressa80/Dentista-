@@ -1,7 +1,0 @@
-{% extends 'base.html' %}{% block title %}Painel Dentista{% endblock %}{% block content %}
-<h2>Olá, {{ session.get('dentist_name') }}</h2>
-<a href="{{ url_for('create_patient') }}">Criar paciente</a>
-<h3>Pacientes</h3>
-<ul>{% for p in patients %}<li>{{ p.name }} - {{ p.email }}</li>{% else %}<li>Sem pacientes</li>{% endfor %}</ul>
-<p>Vá em "Calendário" para adicionar disponibilidades.</p>
-{% endblock %}
