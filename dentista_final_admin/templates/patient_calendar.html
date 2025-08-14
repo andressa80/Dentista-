@@ -1,0 +1,13 @@
+{% extends 'base.html' %}{% block content %}
+<h2>Agendar Consulta</h2>
+<div id="calendar"></div>
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  const cal = new FullCalendar.Calendar(document.getElementById('calendar'), {
+    initialView: 'dayGridMonth',
+    events: '/api/patient_slots',
+    eventClick: function(info){ if(confirm('Agendar neste horário?')){ const dt = info.event.start; const date = dt.toISOString().slice(0,10); const time = dt.toISOString().slice(11,16); fetch('/api/book',{method:'POST',headers:{'Content-Type':'application/json'},body: JSON.stringify({date,time})}).then(r=>r.json()).then(j=>{ if(j.ok){ alert('Agendado!'); cal.refetchEvents(); } else alert(j.msg||'Erro') }) } }
+  }); cal.render();
+});
+</script>
+{% endblock %}

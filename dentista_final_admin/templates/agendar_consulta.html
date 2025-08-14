@@ -1,0 +1,9 @@
+{% extends 'base.html' %}{% block content %}
+<h2>Agendar Consulta</h2>
+<form method="post">
+  <label>Paciente<br><select name="patient_id">{% for p in patients %}<option value="{{ p.id }}">{{ p.name }}</option>{% endfor %}</select></label><br>
+  <label>Data<br><input name="date" type="date" required></label><br>
+  <label>Hora<br><input name="time" type="time" required></label><br>
+  <button type="submit">Agendar</button>
+</form>
+{% endblock %}

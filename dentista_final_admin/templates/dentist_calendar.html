@@ -1,0 +1,15 @@
+{% extends 'base.html' %}{% block content %}
+<h2>Calendário - Disponibilidades</h2>
+<div id="calendar"></div>
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  const cal = new FullCalendar.Calendar(document.getElementById('calendar'), {
+    initialView: 'dayGridMonth',
+    selectable: true,
+    select: function(info){ const t=prompt('Hora (HH:MM)'); if(!t) return; fetch('/api/add_availability',{method:'POST',headers:{'Content-Type':'application/json'},body: JSON.stringify({date: info.startStr, time: t})}).then(r=>r.json()).then(j=>{ if(j.ok) cal.refetchEvents(); else alert(j.msg||'Erro') }) },
+    eventClick: function(info){ if(info.event.extendedProps.type==='avail'){ if(confirm('Remover disponibilidade?')){ fetch('/api/remove_availability',{method:'POST',headers:{'Content-Type':'application/json'},body: JSON.stringify({id: info.event.extendedProps.id})}).then(r=>r.json()).then(j=>{ if(j.ok) cal.refetchEvents(); }) } } else alert(info.event.title) },
+    events: '/api/dentist_events'
+  }); cal.render();
+});
+</script>
+{% endblock %}
