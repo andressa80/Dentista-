@@ -1,0 +1,52 @@
+{% extends 'base.html' %}{% block content %}
+<h2 class="h4 mb-3">Painel do Dentista - {{ session.get('name') }}</h2>
+<div class="d-flex gap-2 mb-3 flex-wrap">
+  <a class="btn btn-secondary" href="{{ url_for('dentist_create_patient') }}">Cadastrar Paciente</a>
+  <a class="btn btn-secondary" href="{{ url_for('dentist_schedule') }}">Agendar Consulta</a>
+  <a class="btn btn-secondary" href="{{ url_for('dentist_calendar') }}">Calendário</a>
+</div>
+
+<div class="card p-3 shadow-sm">
+  <h3 class="h6">Consultas</h3>
+  <div class="table-responsive">
+    <table class="table table-sm align-middle">
+      <thead><tr><th>Data</th><th>Hora</th><th>Paciente</th><th>Ações</th></tr></thead>
+      <tbody>
+        {% for a in appointments %}
+        <tr>
+          <td>{{ a.date }}</td><td>{{ a.time }}</td><td>{{ a.patient_name }}</td>
+          <td><button class="btn btn-sm btn-outline-secondary" onclick="cancelar({{ a.id }})">Cancelar</button></td>
+        </tr>
+        {% else %}
+        <tr><td colspan="4" class="text-center text-secondary">Sem consultas</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+async function cancelar(id){
+  if(!confirm('Cancelar esta consulta?')) return;
+  const r = await fetch('{{ url_for('api_cancel_appointment') }}', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({id})});
+  const j = await r.json();
+  if(j.ok) location.reload(); else alert('Erro ao cancelar');
+}
+</script>
+
+<div class="card p-3 shadow-sm mt-3">
+  <h3 class="h6">Pacientes</h3>
+  <div class="row g-2">
+    {% for p in patients %}
+    <div class="col-sm-6 col-lg-4">
+      <div class="border rounded p-2 d-flex justify-content-between align-items-center">
+        <div><strong>{{ p.name }}</strong><div class="small text-secondary">{{ p.email }}</div></div>
+        <a class="btn btn-sm btn-outline-secondary" href="{{ url_for('dentist_upload', patient_id=p.id) }}">Arquivos</a>
+      </div>
+    </div>
+    {% else %}
+    <p class="text-secondary">Nenhum paciente cadastrado.</p>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

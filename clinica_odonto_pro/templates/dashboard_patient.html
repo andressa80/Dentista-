@@ -1,0 +1,35 @@
+{% extends 'base.html' %}{% block content %}
+<h2 class="h4 mb-3">Painel do Paciente - {{ session.get('name') }}</h2>
+<div class="d-flex gap-2 mb-3 flex-wrap">
+  <a class="btn btn-secondary" href="{{ url_for('patient_calendar') }}">Marcar Consulta</a>
+  <a class="btn btn-secondary" href="{{ url_for('patient_profile') }}">Meu Perfil</a>
+</div>
+
+<div class="card p-3 shadow-sm">
+  <h3 class="h6">Minhas Consultas</h3>
+  <div class="table-responsive">
+    <table class="table table-sm align-middle">
+      <thead><tr><th>Data</th><th>Hora</th><th>Dentista</th><th>Ações</th></tr></thead>
+      <tbody>
+        {% for a in appointments %}
+        <tr>
+          <td>{{ a.date }}</td><td>{{ a.time }}</td><td>{{ a.dentist_name }}</td>
+          <td><button class="btn btn-sm btn-outline-secondary" onclick="cancelar({{ a.id }})">Cancelar</button></td>
+        </tr>
+        {% else %}
+        <tr><td colspan="4" class="text-center text-secondary">Sem consultas</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+async function cancelar(id){
+  if(!confirm('Cancelar esta consulta?')) return;
+  const r = await fetch('{{ url_for('api_patient_cancel') }}', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({id})});
+  const j = await r.json();
+  if(j.ok) location.reload(); else alert('Erro ao cancelar');
+}
+</script>
+{% endblock %}

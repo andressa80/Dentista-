@@ -1,0 +1,33 @@
+{% extends 'base.html' %}{% block content %}
+<h2 class="h4 mb-3">Arquivos do Paciente - {{ patient.name }}</h2>
+<div class="row g-3">
+  <div class="col-lg-6">
+    <div class="card p-3 shadow-sm">
+      <h3 class="h6">Anamnese</h3>
+      <form method="post" action="{{ url_for('upload_anamnese', patient_id=patient.id) }}" enctype="multipart/form-data">
+        <input class="form-control mb-2" type="file" name="image" accept="image/*" required>
+        <button class="btn btn-secondary">Enviar</button>
+      </form>
+      <div class="row g-2 mt-2">
+        {% for a in anam %}
+        <div class="col-6"><img class="img-fluid rounded border" src="{{ url_for('uploaded_file', filename=a.image_path) }}" alt="anamnese"></div>
+        {% else %}<p class="text-secondary small">Sem anamnese.</p>{% endfor %}
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-6">
+    <div class="card p-3 shadow-sm">
+      <h3 class="h6">Ficha Clínica</h3>
+      <form method="post" action="{{ url_for('upload_ficha', patient_id=patient.id) }}" enctype="multipart/form-data">
+        <input class="form-control mb-2" type="file" name="image" accept="image/*" required>
+        <button class="btn btn-secondary">Enviar</button>
+      </form>
+      <div class="row g-2 mt-2">
+        {% for f in fichas %}
+        <div class="col-6"><img class="img-fluid rounded border" src="{{ url_for('uploaded_file', filename=f.image_path) }}" alt="ficha"></div>
+        {% else %}<p class="text-secondary small">Sem ficha clínica.</p>{% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

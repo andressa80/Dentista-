@@ -1,0 +1,5 @@
+:root{ --gray:#6c757d; --dark:#343a40; --light:#f8f9fa; }
+.btn.btn-secondary{ background: var(--gray); border-color: var(--gray); }
+.btn.btn-outline-secondary{ color: var(--dark); border-color: var(--gray); }
+.navbar.bg-secondary{ background: var(--gray)!important; }
+.card img{ object-fit: cover; }

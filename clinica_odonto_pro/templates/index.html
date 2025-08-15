@@ -1,0 +1,71 @@
+{% extends 'base.html' %}{% block content %}
+<section class="row align-items-center g-4">
+  <div class="col-lg-6">
+    <h1 class="display-5 fw-bold">Cuidado completo para o seu sorriso</h1>
+    <p class="lead text-secondary">Tecnologia e acolhimento em um só lugar.</p>
+    <div class="d-flex gap-2">
+      <a class="btn btn-secondary btn-lg" href="{{ url_for('patient_login') }}">Entrar para Agendar</a>
+      <a class="btn btn-outline-secondary btn-lg" href="#servicos">Conhecer serviços</a>
+    </div>
+    <ul class="list-inline mt-3 small mb-0">
+      <li class="list-inline-item badge rounded-pill text-bg-light border">Equipe Especializada</li>
+      <li class="list-inline-item badge rounded-pill text-bg-light border">Atendimento Humanizado</li>
+      <li class="list-inline-item badge rounded-pill text-bg-light border">Tecnologia Digital</li>
+    </ul>
+  </div>
+  <div class="col-lg-6">
+    <img class="img-fluid rounded-4 shadow-sm border" src="{{ url_for('static', filename='img/banner.svg') }}" alt="Consultório moderno">
+  </div>
+</section>
+
+<section class="py-5" id="servicos">
+  <h2 class="h3 mb-3">Nossos Serviços</h2>
+  <div class="row g-3">
+    {% for name,icon,desc in [
+      ('Limpeza','icon_limpeza.svg','Profilaxia profissional para manter sua saúde bucal em dia.'),
+      ('Clareamento','icon_clareamento.svg','Tratamentos seguros para um sorriso mais branco e luminoso.'),
+      ('Implantes','icon_implantes.svg','Soluções de reabilitação com conforto e previsibilidade.'),
+      ('Ortodontia','icon_ortodontia.svg','Alinhadores e aparelhos com foco em estética e saúde.')] %}
+    <div class="col-12 col-md-6 col-xl-3">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body text-center">
+          <img width="52" height="52" class="mb-2" src="{{ url_for('static', filename='img/' ~ icon) }}" alt="{{ name }}">
+          <h3 class="h5">{{ name }}</h3>
+          <p class="text-secondary small mb-0">{{ desc }}</p>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="py-5">
+  <div class="card shadow-sm text-center p-4">
+    <h2 class="h4">Fale Conosco</h2>
+    <p class="mb-1"><strong>Telefone:</strong> (11) 3333-0000</p>
+    <p class="mb-3"><strong>E-mail:</strong> contato@clinicadental.com</p>
+    <a class="btn btn-secondary btn-lg" href="{{ url_for('patient_login') }}">Entrar para Agendar</a>
+  </div>
+</section>
+
+<section class="py-4">
+  <h2 class="h4">Acesse o Sistema</h2>
+  <div class="row g-3">
+    <div class="col-md-4"><div class="card p-3 text-center shadow-sm h-100">
+      <h3 class="h5">Admin</h3><p class="small text-secondary">Gerencie dentistas.</p>
+      <code>admin@gmail.com / Admin</code><br>
+      <a class="btn btn-secondary mt-2" href="{{ url_for('admin_login') }}">Entrar</a>
+    </div></div>
+    <div class="col-md-4"><div class="card p-3 text-center shadow-sm h-100">
+      <h3 class="h5">Dentista</h3><p class="small text-secondary">Agenda, uploads e pacientes.</p>
+      <code>dentista@gmail.com / Teste123</code><br>
+      <a class="btn btn-secondary mt-2" href="{{ url_for('dentist_login') }}">Entrar</a>
+    </div></div>
+    <div class="col-md-4"><div class="card p-3 text-center shadow-sm h-100">
+      <h3 class="h5">Paciente</h3><p class="small text-secondary">Marcar e cancelar consultas, ver arquivos.</p>
+      <code>paciente@gmail.com / Paciente123</code><br>
+      <a class="btn btn-secondary mt-2" href="{{ url_for('patient_login') }}">Entrar</a>
+    </div></div>
+  </div>
+</section>
+{% endblock %}

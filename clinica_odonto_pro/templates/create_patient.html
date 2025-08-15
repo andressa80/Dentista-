@@ -1,0 +1,16 @@
+{% extends 'base.html' %}{% block content %}
+<h2 class="h4 mb-3">Cadastrar Paciente</h2>
+<div class="card p-3 shadow-sm">
+  <form method="post" enctype="multipart/form-data">
+    <div class="row g-2">
+      <div class="col-md-6"><label class="form-label">Nome</label><input class="form-control" name="name" required></div>
+      <div class="col-md-6"><label class="form-label">Email</label><input class="form-control" name="email" type="email" required></div>
+      <div class="col-md-3"><label class="form-label">Idade</label><input class="form-control" name="age" type="number" min="0"></div>
+      <div class="col-md-3"><label class="form-label">Telefone</label><input class="form-control" name="phone"></div>
+      <div class="col-md-6"><label class="form-label">Foto</label><input class="form-control" name="photo" type="file" accept="image/*"></div>
+      <div class="col-md-6"><label class="form-label">Senha (opcional)</label><input class="form-control" name="password" placeholder="vazio = aleatória"></div>
+    </div>
+    <button class="btn btn-secondary mt-3" type="submit">Salvar</button>
+  </form>
+</div>
+{% endblock %}

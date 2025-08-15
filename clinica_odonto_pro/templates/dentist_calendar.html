@@ -1,0 +1,41 @@
+{% extends 'base.html' %}{% block content %}
+<h2 class="h4 mb-3">Calendário do Dentista</h2>
+<div class="card p-3 shadow-sm">
+  <div id='calendar'></div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const calendarEl = document.getElementById('calendar');
+  const calendar = new FullCalendar.Calendar(calendarEl, {
+    initialView: 'dayGridMonth',
+    selectable: true,
+    headerToolbar: { left: 'prev,next today', center: 'title', right: 'dayGridMonth,timeGridWeek,timeGridDay' },
+    events: '{{ url_for('api_dentist_events') }}',
+    dateClick: function(info){
+      const time = prompt('Digite a hora (HH:MM) para disponibilizar:');
+      if(!time) return;
+      fetch('{{ url_for('api_add_availability') }}', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({date: info.dateStr, time})})
+      .then(r=>r.json()).then(j=>{ if(j.ok) calendar.refetchEvents(); else alert('Erro: ' + (j.msg||'')); });
+    },
+    eventClick: function(info){
+      const e = info.event;
+      const type = e.extendedProps.type;
+      if(type==='avail'){
+        if(confirm('Remover disponibilidade?')){
+          const id = e.id.substring(1);
+          fetch('{{ url_for('api_remove_availability') }}', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({id})})
+          .then(r=>r.json()).then(j=>{ if(j.ok) e.remove(); });
+        }
+      }else{
+        if(confirm('Cancelar consulta?')){
+          const id = e.id.substring(2);
+          fetch('{{ url_for('api_cancel_appointment') }}', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({id})})
+          .then(r=>r.json()).then(j=>{ if(j.ok) e.remove(); });
+        }
+      }
+    }
+  });
+  calendar.render();
+});
+</script>
+{% endblock %}

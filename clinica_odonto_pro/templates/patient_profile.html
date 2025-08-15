@@ -1,0 +1,35 @@
+{% extends 'base.html' %}{% block content %}
+<h2 class="h4 mb-3">Meu Perfil</h2>
+<div class="row g-3">
+  <div class="col-md-4">
+    <div class="card p-3 text-center shadow-sm">
+      {% if p.photo %}
+        <img class="img-fluid rounded border" src="{{ url_for('uploaded_file', filename=p.photo) }}" alt="foto">
+      {% else %}
+        <img class="img-fluid rounded border" src="{{ url_for('static', filename='img/profile_placeholder.svg') }}" alt="foto">
+      {% endif %}
+    </div>
+  </div>
+  <div class="col-md-8">
+    <div class="card p-3 shadow-sm">
+      <ul class="list-unstyled mb-0">
+        <li><strong>Nome:</strong> {{ p.name }}</li>
+        <li><strong>Email:</strong> {{ p.email }}</li>
+        <li><strong>Idade:</strong> {{ p.age or '-' }}</li>
+        <li><strong>Telefone:</strong> {{ p.phone or '-' }}</li>
+      </ul>
+      <hr>
+      <h3 class="h6">Anamnese</h3>
+      <div class="row g-2">
+        {% for a in anam %}<div class="col-6"><img class="img-fluid rounded border" src="{{ url_for('uploaded_file', filename=a.image_path) }}" alt="anamnese"></div>
+        {% else %}<p class="text-secondary small">Sem anamnese.</p>{% endfor %}
+      </div>
+      <h3 class="h6 mt-3">Ficha Clínica</h3>
+      <div class="row g-2">
+        {% for f in fichas %}<div class="col-6"><img class="img-fluid rounded border" src="{{ url_for('uploaded_file', filename=f.image_path) }}" alt="ficha"></div>
+        {% else %}<p class="text-secondary small">Sem ficha clínica.</p>{% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

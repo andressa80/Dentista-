@@ -1,0 +1,29 @@
+{% extends 'base.html' %}{% block content %}
+<h2 class="h4 mb-3">Calendário do Paciente</h2>
+<div class="card p-3 shadow-sm mb-3">
+  <div id='calendar'></div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const calendarEl = document.getElementById('calendar');
+  const calendar = new FullCalendar.Calendar(calendarEl, {
+    initialView: 'dayGridMonth',
+    selectable: true,
+    headerToolbar: { left: 'prev,next today', center: 'title', right: 'dayGridMonth,timeGridWeek,timeGridDay' },
+    events: '{{ url_for('api_patient_slots') }}',
+    dateClick: function(info){
+      alert('Selecione um horário livre clicando em um evento "Livre".');
+    },
+    eventClick: function(info){
+      const dt = info.event.extendedProps.date;
+      const tm = info.event.extendedProps.time;
+      if(confirm('Confirmar agendamento em ' + dt + ' ' + tm + '?')){
+        fetch('{{ url_for('api_book') }}', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({date: dt, time: tm})})
+        .then(r=>r.json()).then(j=>{ if(j.ok){ alert('Agendado!'); location.reload(); } else alert('Erro: ' + (j.msg||'')); });
+      }
+    }
+  });
+  calendar.render();
+});
+</script>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends 'base.html' %}{% block content %}
+<h2 class="h4 mb-3">Painel Admin</h2>
+<div class="row g-3">
+  <div class="col-lg-6">
+    <div class="card p-3 shadow-sm h-100">
+      <h3 class="h5">Cadastrar dentista</h3>
+      <form method="post" action="{{ url_for('admin_create_dentist') }}">
+        <div class="row g-2">
+          <div class="col-md-6"><label class="form-label">Nome</label><input class="form-control" name="name" required></div>
+          <div class="col-md-6"><label class="form-label">Email</label><input class="form-control" name="email" type="email" required></div>
+          <div class="col-md-12"><label class="form-label">Senha (opcional)</label><input class="form-control" name="password" placeholder="vazio = aleatória"></div>
+        </div>
+        <button class="btn btn-secondary mt-3" type="submit">Criar</button>
+      </form>
+    </div>
+  </div>
+  <div class="col-lg-6">
+    <div class="card p-3 shadow-sm mb-3">
+      <h3 class="h6">Dentistas</h3>
+      <ul class="list-group list-group-flush small">
+        {% for d in dentists %}<li class="list-group-item">{{ d.name }} - {{ d.email }}</li>{% else %}<li class="list-group-item">Sem dentistas</li>{% endfor %}
+      </ul>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends 'base.html' %}{% block content %}
+<h2 class="h4 mb-3">Agendar Consulta</h2>
+<div class="card p-3 shadow-sm">
+  <form method="post">
+    <div class="row g-2">
+      <div class="col-md-6">
+        <label class="form-label">Paciente</label>
+        <select class="form-select" name="patient_id" required>
+          {% for p in patients %}<option value="{{ p.id }}">{{ p.name }}</option>{% endfor %}
+        </select>
+      </div>
+      <div class="col-md-3"><label class="form-label">Data</label><input class="form-control" type="date" name="date" required></div>
+      <div class="col-md-3"><label class="form-label">Hora</label><input class="form-control" type="time" name="time" required></div>
+    </div>
+    <button class="btn btn-secondary mt-3" type="submit">Agendar</button>
+  </form>
+</div>
+{% endblock %}
